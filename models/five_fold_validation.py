@@ -10,7 +10,7 @@ def validate_logistic_regression_for_wine_quality():
     df = pd.read_csv("../data/winequality/winequality-red.csv", sep=";")
     df['classified']=[1 if x>=6 else 0 for x in df["quality"] ]
     fold_size = int(round(df.shape[0]/num_of_folds))
-    for i in range(5):
+    for i in range(num_of_folds):
         x_test = df[['fixed acidity', 'volatile acidity', 'citric acid', 'residual sugar', 'chlorides', 'free sulfur dioxide', 'total sulfur dioxide', 'density', 'pH', 'sulphates', 'alcohol']][i*fold_size:fold_size+i*fold_size]
         x_train_part_1 = df[['fixed acidity', 'volatile acidity', 'citric acid', 'residual sugar', 'chlorides', 'free sulfur dioxide', 'total sulfur dioxide', 'density', 'pH', 'sulphates', 'alcohol']][fold_size+i*fold_size:]
         x_train_part_2 = df[['fixed acidity', 'volatile acidity', 'citric acid', 'residual sugar', 'chlorides', 'free sulfur dioxide', 'total sulfur dioxide', 'density', 'pH', 'sulphates', 'alcohol']][:i*fold_size]
