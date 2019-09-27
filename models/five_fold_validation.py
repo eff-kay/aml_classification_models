@@ -3,19 +3,25 @@ import numpy as np
 # from linear_discriminant_analysis import LearnDiscriminantAnalysis as LDA
 # from logistic_regression import LogisticRegression
 from sklearn.model_selection import KFold
+import time
 
 def k_fold_validation(X, y, classifier, n_fold):
     N = len(y)
     score = 1
+    t = 0
     kf = KFold(n_splits=n_fold)
     for train_i, test_i in kf.split(X):
         X_train, X_test = X[train_i], X[test_i]
         y_train, y_test = y[train_i], y[test_i]
+        start_t = time.time()
         classifier.fit(X_train, y_train)
         s = classifier.score(X_test, y_test)
+        end_t = time.time()
         if s < score:
             score = s
-
+            t = end_t - start_t
+    print("score: " + str(score))
+    print("time: " + str(t))
     return score
 
 if __name__ == "__main__":
