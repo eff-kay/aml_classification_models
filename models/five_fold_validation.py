@@ -19,9 +19,9 @@ def k_fold_validation(X, y, classifier, n_fold):
         s = classifier.score(X_test, y_test)
         end_t = time.time()
         t= end_t-start_t
-        print("score: " + str(s[0]))
+        print("score: " + str(s))
         print("time: " + str(t))
-        scores.append(s[0])
+        scores.append(s)
         times.append(t)
 
     mean_score = mean(scores)
