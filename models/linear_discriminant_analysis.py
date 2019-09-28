@@ -3,7 +3,7 @@ import math
 import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
-from .utils import evaluate_acc
+from utils import evaluate_acc
 
 class LearnDiscriminantAnalysis:
     def __init__(self):
@@ -49,7 +49,7 @@ class LearnDiscriminantAnalysis:
         self.w = plog \
             - ((m1.T).dot(np.linalg.inv(co_var))).dot(m1)/2 \
             + ((m0.T).dot(np.linalg.inv(co_var))).dot(m0)/2
-
+        
     def predict(self, X):
         pred = []
         for row in X:
@@ -61,3 +61,12 @@ class LearnDiscriminantAnalysis:
     def score(self, X, y_test):
         y_pred = self.predict(X)
         return evaluate_acc(y_test, y_pred)
+
+if __name__ == "__main__":
+    df = pd.read_csv("../data/winequality/winequality-red.csv", sep=";")	
+    df['classified']=[1 if x>=6 else 0 for x in df["quality"] ]	
+    X_train, X_test, y_train, y_test= train_test_split(df[['fixed acidity', 'volatile acidity', 'citric acid', 'residual sugar', 'chlorides', 'free sulfur dioxide', 'total sulfur dioxide', 'density', 'pH', 'sulphates', 'alcohol']], df.classified, train_size=0.9)
+    wine_model = LearnDiscriminantAnalysis()
+    wine_model.fit(X_train, y_train)
+    y_predicted = wine_model.predict(X_test)
+    wine_model.score(X_test, y_test)

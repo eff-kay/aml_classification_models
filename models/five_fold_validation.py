@@ -4,11 +4,12 @@ import numpy as np
 # from logistic_regression import LogisticRegression
 from sklearn.model_selection import KFold
 import time
+from statistics import mean
 
 def k_fold_validation(X, y, classifier, n_fold):
     N = len(y)
-    score = 1
-    t = 0
+    scores = []
+    times = []
     kf = KFold(n_splits=n_fold)
     for train_i, test_i in kf.split(X):
         X_train, X_test = X[train_i], X[test_i]
@@ -17,12 +18,18 @@ def k_fold_validation(X, y, classifier, n_fold):
         classifier.fit(X_train, y_train)
         s = classifier.score(X_test, y_test)
         end_t = time.time()
-        if s < score:
-            score = s
-            t = end_t - start_t
-    print("score: " + str(score))
-    print("time: " + str(t))
-    return score
+        t= end_t-start_t
+        print("score: " + str(s[0]))
+        print("time: " + str(t))
+        scores.append(s[0])
+        times.append(t)
+
+    mean_score = mean(scores)
+    mean_time = mean(times)
+    
+    print("average score: " + str(mean_score))
+    print("average time: " + str(mean_time))
+    return mean_score
 
 if __name__ == "__main__":
     df = pd.read_csv("data/winequality/winequality-red.csv", sep=";")
