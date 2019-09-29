@@ -3,7 +3,7 @@ import math
 import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
-from utils import evaluate_acc
+from .utils import evaluate_acc
 
 class LearnDiscriminantAnalysis:
     def __init__(self):
